@@ -1,0 +1,8 @@
+psycopg2
+python-dotenv
+psycopg2-binary
+sqlalchemy
+pandas
+scikit-learn
+streamlit
+sqlite3
