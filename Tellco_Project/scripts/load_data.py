@@ -17,7 +17,7 @@ DB_PASSWORD = os.getenv("DB_PASSWORD")
 
 def load_data_from_postgres(query):
     """
-    Connects to the PostgreSQL database and loads dataon the provided SQL queryy.
+    Connects to the PostgreSQL database and loads data on the provided SQL queryy.
     
     :param query: SQL query to execute.
     :return: DataFrame containing the results of the query.
@@ -41,3 +41,23 @@ def load_data_from_postgres(query):
     except Exception as e:
         print(f"An error occurred: {e}")
         return None
+    
+def export_data_to_postgres(df, table_name):
+    """
+    Exports a DataFrame to the PostgreSQL database.
+    
+    :param df: DataFrame to export.
+    :param table_name: Name of the table where data will be inserted/updated.
+    :return: None
+    """
+    try:
+        # Create a SQLAlchemy engine
+        engine = create_engine(f"postgresql://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}")
+        
+        # Export the DataFrame to the database (append mode)
+        df.to_sql(table_name, engine, if_exists='append', index=False)
+        
+        print(f"Data successfully exported to {table_name} table in the database.")
+        
+    except Exception as e:
+        print(f"An error occurred during export: {e}")
